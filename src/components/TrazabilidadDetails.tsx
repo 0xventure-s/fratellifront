@@ -1,7 +1,8 @@
-import { ActionFunctionArgs, useLoaderData, useNavigate } from "react-router-dom";
-import { TOSTADERO, TRAZABILIDAD } from "../schemas";
+import { ActionFunctionArgs, useNavigate } from "react-router-dom";
+import {TRAZABILIDAD } from "../schemas";
 import { ObtenerTostadoPorId } from "../services/Tostadero";
-import { useEffect, useState } from "react"; // Importa useEffect y useState
+import {useState } from "react"; // Importa useEffect y useState
+import { ButtonColors } from "flowbite-react";
 
 export type TrazabilidadDetailsProps = {
   trazable: TRAZABILIDAD,
@@ -16,7 +17,7 @@ export async function loader({ params }: ActionFunctionArgs) {
 
 export default function TrazabilidadDetails({ trazable }: TrazabilidadDetailsProps) {
   const navigate = useNavigate();
-  const tostadero = useLoaderData() as TOSTADERO;
+
 
   // Estado para el color de los botones
   const [buttonColors, setButtonColors] = useState(() => {
@@ -35,12 +36,13 @@ export default function TrazabilidadDetails({ trazable }: TrazabilidadDetailsPro
 
   // Función para cambiar el color de los botones
   const handleButtonClick = (buttonName: keyof typeof buttonColors) => {
-    setButtonColors((prev) => {
+    setButtonColors((prev: ButtonColors) => {
       const newColors = { ...prev, [buttonName]: true };
       localStorage.setItem('buttonColors', JSON.stringify(newColors));
       return newColors;
     });
   };
+  
 
   const handleTostaderoClick = () => {
     handleButtonClick('tostadero');
